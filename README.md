@@ -8,9 +8,6 @@
     <a href="https://github.com/oracle/helidon-build-tools/issues">
         <img src="https://img.shields.io/github/issues/oracle/helidon-build-tools.svg" alt="latest version">
     </a>
-    <a href="https://twitter.com/intent/follow?screen_name=helidon_project">
-        <img src="https://img.shields.io/twitter/follow/helidon_project.svg?style=social&logo=twitter" alt="follow on Twitter">
-    </a>
 </p>
 
 # Helidon Build Tools
