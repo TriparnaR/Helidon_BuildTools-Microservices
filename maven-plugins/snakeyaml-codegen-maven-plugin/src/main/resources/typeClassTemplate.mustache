@@ -1,0 +1,76 @@
+/*
+ * Copyright (c) 2020 Oracle and/or its affiliates.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package {{generatedPackageName}};
+
+{{#javaImports}}
+import {{#isStatic}} static {{/isStatic}}{{name}};
+{{/javaImports}}
+
+{{#implImports}}
+import {{#isStatic}} static {{/isStatic}}{{name}};
+{{/implImports}}
+
+{{#openAPIImports}}
+import {{#isStatic}} static {{/isStatic}}{{name}};
+{{/openAPIImports}}
+
+import org.yaml.snakeyaml.TypeDescription;
+
+class {{generatedClassName}}<T extends TypeDescription> {
+
+    private final Map<Class<?>, T> types = new HashMap<>();
+    private final Map<Class<?>, Class<?>> mapImplementingTypes = new HashMap<>();
+    private final Map<Class<?>, Class<?>> listImplementingTypes = new HashMap<>();
+
+    static <T extends TypeDescription> {{generatedClassName}}<T> create(
+                            BiFunction<Class<?>, Class<?>, T> factoryFunction) {
+        return new {{generatedClassName}}<T>(factoryFunction);
+    }
+
+    Map<Class<?>, T> types() {
+        return types;
+    }
+
+    Set<Map.Entry<Class<?>, T>> entrySet() {
+        return types.entrySet();
+    }
+
+    Set<Class<?>> keySet() {
+        return types.keySet();
+    }
+
+    boolean containsKey(Class<?> type) {
+        return types.containsKey(type);
+    }
+
+    T get(Class<?> clazz) {
+        return types.get(clazz);
+    }
+
+    private {{generatedClassName}}(BiFunction<Class<?>, Class<?>, T> factoryFunction) {
+{{#typesToAugment}}
+        T td_{{simpleName}} = factoryFunction.apply({{simpleName}}.class, {{implementationType}}.class);
+        {{#propertyParameters}}
+        td_{{simpleName}}.addPropertyParameters("{{parameterName}}"{{#parameterTypes}}, {{parameterType}}.class{{/parameterTypes}});
+        {{/propertyParameters}}
+        {{#propertySubstitutions}}
+        td_{{simpleName}}.substituteProperty("{{propertySubName}}", {{propertySubType}}.class, "{{getter}}", "{{setter}}");
+        {{/propertySubstitutions}}
+        types.put(td_{{simpleName}}.getType(), td_{{simpleName}});
+
+{{/typesToAugment}}
+    }
+}
